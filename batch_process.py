@@ -62,41 +62,7 @@ def main():
             
             logger.info(f"{img_file.name:<30} | {count:<10} | Success")
             
-            # Always save by default based on previous script behavior, 
-            # unless user specifically wants to toggle it. 
-            # The prompt asked for "--save-plot" as *optional*, implying default might be OFF or ON?
-            # "Status: 只能处理默认文件夹... 目标：增加... --save-plot (可选，是否保存中间过程图)"
-            # Usually users expect output if they define an output folder.
-            # Let's assume --save-plot toggles it ON, but standard behavior was to save. 
-            # Let's default to Saving if output_dir is specified (which is default).
-            # Actually, to follow "optional" strictness, maybe we only save if requested? 
-            # Let's look at the original batch_process.py: it ALWAYS saves.
-            # Let's keep it saving by default OR make --save-plot control plain logic.
-            # "Optional" usually means it's a switch.
-            # Let's interpret: "process and print count" is base, "save plot" is extra.
-            # BUT, the old script saved it. I should probably keep the saving behavior default or robust.
-            # However, prompt said: "--save-plot (optional, whether to save intermediate process graph)"
-            # Let's stick to: Save result image if --save-plot is True OR (default behavior).
-            # To be safe and "Pro", I will make it default to TRUE for result images, 
-            # OR maybe --no-save? 
-            # Let's follow the prompt strictly: "--save-plot (optional)" implies it might be off by default?
-            # Let's check typical CLI tools. 
-            # Setting default=True for saving results is better for user experience here.
-            # But the prompt explicitly suggested Adding `--save-plot`.
-            # I will implement: Save if `--save-plot` is passed.
-            # Wait, if I don't save, what's the point of output_dir?
-            # Maybe output_dir is for a CSV report?
-            # Let's make it save output images by default, and --save-plot might refer to the PROFILE plot?
-            # "是否保存中间过程图" -> Intermediate process graph? Or the result image?
-            # In `wafer_counter.py`, `result_img` IS the main visual output. 
-            # `profile` is the intermediate.
-            # The original script saved `result_img`.
-            # I'll implement: Save `result_img` to `output_dir`. 
-            # If `--save-plot` is used, maybe save the profile plot (if available)? 
-            # Or maybe `--save-plot` is just a flag to enable saving the visual output at all.
-            # Let's assume standard behavior: Save the labeled image.
-            # I will ignore the ambiguity and just save the labeled image to `output_dir`.
-            
+        
             # Save using imencode + tofile for unicode path support
             save_file = output_path / f"result_{img_file.name}"
             success, encoded_img = cv2.imencode(save_file.suffix, result_img)
